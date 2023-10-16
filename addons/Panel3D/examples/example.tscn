@@ -1,0 +1,77 @@
+[gd_scene load_steps=14 format=3 uid="uid://c7d62axcv8pjx"]
+
+[ext_resource type="Script" path="res://addons/Panel3D/3dpanel.gd" id="1_akynd"]
+[ext_resource type="PackedScene" uid="uid://f6ve4iulmjhy" path="res://addons/Panel3D/examples/3d example.tscn" id="2_l7fxm"]
+[ext_resource type="Script" path="res://addons/Panel3D/examples/RayCast3D.gd" id="3_c5hel"]
+[ext_resource type="PackedScene" uid="uid://cguqlvse0g2x3" path="res://addons/Panel3D/examples/Node2DExample.tscn" id="3_le6tb"]
+[ext_resource type="Script" path="res://addons/Panel3D/examples/Node3D.gd" id="5_wa7oo"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_40jv6"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_xsqtq"]
+sky_material = SubResource("ProceduralSkyMaterial_40jv6")
+
+[sub_resource type="Environment" id="Environment_pvtyk"]
+background_mode = 2
+sky = SubResource("Sky_xsqtq")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="Gradient" id="Gradient_864qk"]
+colors = PackedColorArray(0, 0.677058, 1.92523e-07, 1, 0.262951, 0.109045, 4.81308e-08, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_45mly"]
+frequency = 0.644
+fractal_type = 0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_mamxk"]
+width = 64
+height = 64
+seamless = true
+color_ramp = SubResource("Gradient_864qk")
+noise = SubResource("FastNoiseLite_45mly")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5i0f2"]
+albedo_texture = SubResource("NoiseTexture2D_mamxk")
+uv1_scale = Vector3(0.5, 0.5, 0.5)
+uv1_triplanar = true
+texture_filter = 2
+
+[sub_resource type="BoxMesh" id="BoxMesh_fyidn"]
+material = SubResource("StandardMaterial3D_5i0f2")
+size = Vector3(1000, 1, 1000)
+
+[node name="example" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_pvtyk")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Panel3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 2.13163e-14, 0, 9.31764e-22, -4.37114e-08, -1, -2.13163e-14, 1, -4.37114e-08, -0.3, 0, 0)
+script = ExtResource("1_akynd")
+_auto_load_ui = ExtResource("2_l7fxm")
+
+[node name="Panel3D2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 2.13163e-14, 0, 9.31764e-22, -4.37114e-08, -1, -2.13163e-14, 1, -4.37114e-08, 0.3, 0, 0)
+script = ExtResource("1_akynd")
+_auto_load_ui = ExtResource("3_le6tb")
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+script = ExtResource("3_c5hel")
+
+[node name="Node3D" type="Node3D" parent="."]
+script = ExtResource("5_wa7oo")
+
+[node name="Camera3D" type="Camera3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.826138)
+cull_mask = 524287
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+mesh = SubResource("BoxMesh_fyidn")

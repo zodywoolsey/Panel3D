@@ -1,0 +1,120 @@
+[gd_scene load_steps=10 format=3 uid="uid://f6ve4iulmjhy"]
+
+[ext_resource type="Script" path="res://addons/Panel3D/examples/3d example.gd" id="1_20db7"]
+
+[sub_resource type="Environment" id="Environment_vjbur"]
+
+[sub_resource type="Gradient" id="Gradient_rawjo"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.571429)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_m4he2"]
+gradient = SubResource("Gradient_rawjo")
+width = 2
+height = 2
+fill_to = Vector2(1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hqj3w"]
+albedo_texture = SubResource("GradientTexture2D_m4he2")
+uv1_scale = Vector3(0.5, 0.5, 0.5)
+uv1_triplanar = true
+texture_filter = 2
+
+[sub_resource type="BoxMesh" id="BoxMesh_rrhlv"]
+material = SubResource("StandardMaterial3D_hqj3w")
+size = Vector3(100, 1, 100)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_uwank"]
+points = PackedVector3Array(-50, -0.5, -50, -50, 0.5, -50, 50, -0.5, -50, -50, -0.5, 50, -50, 0.5, 50, 50, 0.5, -50, 50, -0.5, 50, 50, 0.5, 50)
+
+[sub_resource type="SphereMesh" id="SphereMesh_turwl"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_gp5nc"]
+
+[node name="3d example" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1000, 1000, 0)
+script = ExtResource("1_20db7")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_vjbur")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.66959, -0.332786, 0.664005, -0.212196, 0.77103, 0.600405, -0.711774, -0.542924, 0.445658, 0, 0, 0)
+light_cull_mask = 4294443008
+shadow_enabled = true
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
+cull_mask = 524288
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+layers = 524288
+mesh = SubResource("BoxMesh_rrhlv")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+shape = SubResource("ConvexPolygonShape3D_uwank")
+
+[node name="RigidBody3D" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.30536, 1.06335, 0)
+angular_damp_mode = 1
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D"]
+layers = 524288
+mesh = SubResource("SphereMesh_turwl")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+shape = SubResource("SphereShape3D_gp5nc")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -104.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/VBoxContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+
+[node name="up" type="Button" parent="Control/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 32
+text = "Up"
+
+[node name="down" type="Button" parent="Control/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 32
+text = "Down"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Control/VBoxContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+
+[node name="left" type="Button" parent="Control/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 32
+text = "Left"
+
+[node name="right" type="Button" parent="Control/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 32
+text = "Right"
