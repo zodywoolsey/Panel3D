@@ -65,6 +65,7 @@ func _process(delta):
 
 func laser_input(data:Dictionary):
 	var event
+	# Setup event
 	match data.action:
 		"hover":
 			event = InputEventMouseMotion.new()
@@ -77,40 +78,47 @@ func laser_input(data:Dictionary):
 		"click":
 			event = InputEventMouseButton.new()
 			event.button_index = 1
+		"custom":
+			# Use this to pass a different event type or add event strings below
+			event = data.event
+	# Set event pressed value (should be false if not explicitly changed)
 	if data.pressed:
 		event.pressed = data.pressed
-#	event.button_mask = 1
-	# Get mesh size to detect edges and make conversions. This code only support PlaneMesh and QuadMesh.
-	var quad_mesh_size = mesh.mesh.size
-	var mouse_pos3D = to_local(data.position)
-	# convert the relative event position from 3D to 2D
+	# Get the size of the quad mesh we're rendering to
+	var quad_size = mesh.mesh.size
+	# Convert GLOBAL collision point from to be in local space of the panel
+	var mouse_pos3D = to_local(data.position) # data.position must be global
 	var mouse_pos2D = Vector2(mouse_pos3D.x, mouse_pos3D.z)
-	# Right now the event position's range is the following: (-quad_size/2) -> (quad_size/2)
-	# We need to convert it into the following range: 0 -> quad_size
-	mouse_pos2D.x += quad_mesh_size.x / 2
-	mouse_pos2D.y += quad_mesh_size.y / 2
-	# Then we need to convert it into the following range: 0 -> 1
-	mouse_pos2D.x = mouse_pos2D.x / quad_mesh_size.x
-	mouse_pos2D.y = mouse_pos2D.y / quad_mesh_size.y
-	# Finally, we convert the position to the following range: 0 -> viewport.size
+	# Translate the 2D mouse position to the center of the quad
+	#	by adding half of the quad size to both x and y coordinates.
+	mouse_pos2D.x += quad_size.x / 2
+	mouse_pos2D.y += quad_size.y / 2
+	# Normalize the mouse position to be within the quad size
+	mouse_pos2D.x = mouse_pos2D.x / quad_size.x
+	mouse_pos2D.y = mouse_pos2D.y / quad_size.y
+	# Convert the 2D mouse position to viewport coordinates
 	mouse_pos2D.x = mouse_pos2D.x * viewport.size.x
 	mouse_pos2D.y = mouse_pos2D.y * viewport.size.y
-	# We need to do these conversions so the event's position is in the viewport's coordinate system.
-	# Set the event's position and global position.
+	# Sets the position of the event to the calculated mouse position in 2D space.
 	event.position = mouse_pos2D
-#	event.global_position = mouse_pos2D
+	# Set the event to be handled locally (workaround for Godot 4.x bug)
+	#	The bug causes the viewport to not consistently receive input events
 	viewport.handle_input_locally = true
+	# Push the event to the viewport
 	viewport.call_thread_safe("push_input",event,true)
 	viewport.handle_input_locally = false
 
 func set_viewport_scene(node):
+	# Adds a child node to the viewport and sets it as the UI
+	#	Then, gets the texture of the viewport.
 	viewport.add_child(node)
 	ui = node
 	tex = viewport.get_texture()
+	# Connects the 'action' signal of the given node to the 'action' signal of this node.
 	if node.has_signal('action'):
 		node.action.connect(func(data):
 			emit_signal('action',data)
-			)
+		)
 	mesh.mesh.surface_get_material(0).albedo_texture = tex
 
 func set_viewport_size(size:Vector2i):

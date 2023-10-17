@@ -44,7 +44,7 @@ light_cull_mask = 4294443008
 shadow_enabled = true
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12, 4)
 cull_mask = 524288
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
