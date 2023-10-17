@@ -1,23 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg width="100%" height="100%" viewBox="0 0 15 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;">
-    <g id="tablet.svg" transform="matrix(1,0,0,1,7.5,7.5)">
-        <g transform="matrix(1,0,0,1,-7.5,-7.5)">
-            <clipPath id="_clip1">
-                <rect x="0" y="0" width="15" height="15"/>
-            </clipPath>
-            <g clip-path="url(#_clip1)">
-                <path d="M6,11.5L9,11.5M2.5,14.5L12.5,14.5C13.052,14.5 13.5,14.052 13.5,13.5L13.5,1.5C13.5,0.948 13.052,0.5 12.5,0.5L2.5,0.5C1.948,0.5 1.5,0.948 1.5,1.5L1.5,13.5C1.5,14.052 1.948,14.5 2.5,14.5Z" style="fill:none;fill-rule:nonzero;stroke:white;stroke-width:1px;"/>
+    <g id="tablet.svg">
+        <g id="g2">
+            <g id="g1">
+                <clipPath id="_clip1">
+                    <rect x="0" y="0" width="15" height="15"/>
+                </clipPath>
+                <g clip-path="url(#_clip1)">
+                    <path id="path1" d="M6,11.5L9,11.5M2.5,14.5L12.5,14.5C13.052,14.5 13.5,14.052 13.5,13.5L13.5,1.5C13.5,0.948 13.052,0.5 12.5,0.5L2.5,0.5C1.948,0.5 1.5,0.948 1.5,1.5L1.5,13.5C1.5,14.052 1.948,14.5 2.5,14.5Z" style="fill:none;fill-rule:nonzero;stroke:white;stroke-width:1px;"/>
+                </g>
             </g>
-        </g>
-    </g>
-    <g id="robot.svg" transform="matrix(0.533333,0,0,0.533333,7.5,6)">
-        <g transform="matrix(1,0,0,1,-7.5,-7.5)">
-            <path d="M5,8.5C5,8.224 5.224,8 5.5,8C5.776,8 6,8.224 6,8.5C6,8.776 5.776,9 5.5,9C5.224,9 5,8.776 5,8.5Z" style="fill:white;fill-rule:nonzero;"/>
-            <path d="M9,8.5C9,8.224 9.224,8 9.5,8C9.776,8 10,8.224 10,8.5C10,8.776 9.776,9 9.5,9C9.224,9 9,8.776 9,8.5Z" style="fill:white;fill-rule:nonzero;"/>
-            <path d="M8,2.022C10.803,2.275 13,4.631 13,7.5L13,13.5C13,14.328 12.328,15 11.5,15L3.5,15C2.672,15 2,14.328 2,13.5L2,7.5C2,4.631 4.197,2.275 7,2.022L7,0L8,0L8,2.022ZM5.5,7C4.672,7 4,7.672 4,8.5C4,9.328 4.672,10 5.5,10C6.328,10 7,9.328 7,8.5C7,7.672 6.328,7 5.5,7ZM9.5,7C8.672,7 8,7.672 8,8.5C8,9.328 8.672,10 9.5,10C10.328,10 11,9.328 11,8.5C11,7.672 10.328,7 9.5,7ZM11,12L4,12L4,11L11,11L11,12Z" style="fill:white;"/>
-            <rect x="0" y="8" width="1" height="4" style="fill:white;fill-rule:nonzero;"/>
-            <rect x="14" y="8" width="1" height="4" style="fill:white;fill-rule:nonzero;"/>
         </g>
     </g>
 </svg>

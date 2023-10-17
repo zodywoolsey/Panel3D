@@ -8,7 +8,7 @@ var clicked := false
 func _process(delta):
 	var cam = get_viewport().get_camera_3d()
 	global_position = cam.global_position
-	target_position = cam.project_ray_normal(get_window().get_mouse_position())*10.0
+	target_position = cam.project_ray_normal(get_viewport().get_mouse_position())*10.0
 	if Input.get_mouse_button_mask() == MOUSE_BUTTON_LEFT and !clicked:
 		click()
 		clicked = true
