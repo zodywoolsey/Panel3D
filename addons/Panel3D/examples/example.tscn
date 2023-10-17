@@ -59,7 +59,7 @@ script = ExtResource("3_c5hel")
 script = ExtResource("5_wa7oo")
 
 [node name="Camera3D" type="Camera3D" parent="Node3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.826138)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.12038)
 cull_mask = 524287
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
@@ -79,3 +79,14 @@ _auto_load_ui = ExtResource("3_le6tb")
 shading_mode = 1
 heightmap_enabled = true
 heightmap_deep_parallax = true
+
+[node name="Panel3D3" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 2.13163e-14, 0, 9.31764e-22, -4.37114e-08, -1, -2.13163e-14, 1, -4.37114e-08, 0, 0.5, 0)
+script = ExtResource("1_akynd")
+_auto_load_ui = ExtResource("3_le6tb")
+shading_mode = 1
+heightmap_enabled = true
+heightmap_deep_parallax = true
+heightmap_min_layers = 1
+heightmap_max_layers = 10000
+heightmap_scale = 92.62

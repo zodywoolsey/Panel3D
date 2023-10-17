@@ -29,8 +29,8 @@ var prev_vals : Dictionary
 ##
 @export var heightmap_enabled:bool=false
 @export var heightmap_deep_parallax:bool=false
-@export var heightmap_min_layers:int=8
-@export var heightmap_max_layers:int=32
+@export_range(1,10000) var heightmap_min_layers:int=8
+@export_range(1,10000) var heightmap_max_layers:int=32
 @export var heightmap_scale:float=5.0
 
 func _init():
