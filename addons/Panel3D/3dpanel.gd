@@ -105,50 +105,33 @@ func _process(delta):
 	mesh.mesh.size.y = .0005*viewport.size.y
 	colshape.shape.size = Vector3(mesh.mesh.size.x,.001,mesh.mesh.size.y)
 
-func laser_input(data:Dictionary):
-	var event
-	# Setup event
-	match data.action:
-		"hover":
-			event = InputEventMouseMotion.new()
-		"scrollup":
-			event = InputEventMouseButton.new()
-			event.button_index = 4
-		"scrolldown":
-			event = InputEventMouseButton.new()
-			event.button_index = 5
-		"click":
-			event = InputEventMouseButton.new()
-			event.button_index = 1
-		"custom":
-			# Use this to pass a different event type or add event strings below
-			event = data.event
-	# Set event pressed value (should be false if not explicitly changed)
-	if data.pressed:
-		event.pressed = data.pressed
+var last_pos:Vector2 = Vector2.ZERO
+func laser_input(event:InputEvent,collision_point:Vector3):
 	# Get the size of the quad mesh we're rendering to
-	var quad_size = mesh.mesh.size
-	# Convert GLOBAL collision point from to be in local space of the panel
-	var mouse_pos3D = to_local(data.position) # data.position must be global
-	var mouse_pos2D = Vector2(mouse_pos3D.x, mouse_pos3D.z)
-	# Translate the 2D mouse position to the center of the quad
-	#	by adding half of the quad size to both x and y coordinates.
-	mouse_pos2D.x += quad_size.x / 2
-	mouse_pos2D.y += quad_size.y / 2
-	# Normalize the mouse position to be within the quad size
-	mouse_pos2D.x = mouse_pos2D.x / quad_size.x
-	mouse_pos2D.y = mouse_pos2D.y / quad_size.y
-	# Convert the 2D mouse position to viewport coordinates
-	mouse_pos2D.x = mouse_pos2D.x * viewport.size.x
-	mouse_pos2D.y = mouse_pos2D.y * viewport.size.y
-	# Sets the position of the event to the calculated mouse position in 2D space.
-	event.position = mouse_pos2D
-	# Set the event to be handled locally (workaround for Godot 4.x bug)
-	#	The bug causes the viewport to not consistently receive input events
-	viewport.handle_input_locally = true
-	# Push the event to the viewport
-	viewport.call_thread_safe("push_input",event,true)
-	viewport.handle_input_locally = false
+	if event is InputEventMouseMotion or event is InputEventMouseButton:
+		var quad_size = mesh.mesh.size
+		# Convert GLOBAL collision point from to be in local space of the panel
+		var mouse_pos3D = to_local(collision_point) # data.position must be global
+		var mouse_pos2D = Vector2(mouse_pos3D.x, mouse_pos3D.z)
+		# Translate the 2D mouse position to the center of the quad
+		#	by adding half of the quad size to both x and y coordinates.
+		mouse_pos2D.x += quad_size.x / 2
+		mouse_pos2D.y += quad_size.y / 2
+		# Normalize the mouse position to be within the quad size
+		mouse_pos2D.x = mouse_pos2D.x / quad_size.x
+		mouse_pos2D.y = mouse_pos2D.y / quad_size.y
+		# Convert the 2D mouse position to viewport coordinates
+		mouse_pos2D.x = mouse_pos2D.x * viewport.size.x
+		mouse_pos2D.y = mouse_pos2D.y * viewport.size.y
+		# Sets the position of the event to the calculated mouse position in 2D space.
+		event.position = mouse_pos2D
+		event.global_position = mouse_pos2D
+		
+		if event is InputEventMouseMotion:
+			event.relative = last_pos-mouse_pos2D
+			last_pos = mouse_pos2D
+		
+	viewport.push_input(event)
 
 func set_viewport_scene(node):
 	# Clears the current nodes from within the viewport first
